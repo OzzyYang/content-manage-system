@@ -1,4 +1,5 @@
 # content-manage-system
+使用VUE + Element UI开发的后台管理系统。
 
 ## Project setup
 ```
