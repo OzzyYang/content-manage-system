@@ -46,8 +46,11 @@
   </div>
 </template>
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "LoginView",
+  computed: {},
   data() {
     return {
       inputForm: {
@@ -82,6 +85,10 @@ export default {
     };
   },
   methods: {
+    ...mapMutations("m_global", ["updateUserToken", "updateUserInfo"]),
+    /**
+     * 进行登陆操作
+     */
     async login() {
       var valiResult = false;
       //前端验证输入数据是否合法
@@ -118,6 +125,8 @@ export default {
               duration: 1000,
               message: "登陆成功！"
             });
+            this.updateUserToken(res.data.token);
+
             this.$router.push("/home");
           } else {
             this.$message({
@@ -138,6 +147,9 @@ export default {
           });
         });
     },
+    /**
+     * 进行注册操作
+     */
     register() {
       this.$message({
         showClose: true,
@@ -147,7 +159,13 @@ export default {
       });
     }
   },
-  mounted() {
+  beforeCreate() {
+    //先检索本地有没有有效的Token
+    if (this.$store.state.m_global.userToken) {
+      this.$router.push("/home");
+    }
+  },
+  created() {
     window.document.body.style.background = "#232946";
   }
 };

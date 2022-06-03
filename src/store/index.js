@@ -1,17 +1,20 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+/* 导入模块化的Store */
+import moduleGS from "@/store/GlobalStore.js";
 
-export default new Vuex.Store({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
+Vue.use(Vuex);
+
+//创建Store的实例对象
+const store = new Vuex.Store({
+  state: {},
+  getters: {},
+  mutations: {},
+  actions: {},
   modules: {
+    m_global: moduleGS
   }
-})
+});
+
+export default store;
