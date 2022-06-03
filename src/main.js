@@ -20,6 +20,29 @@ axios.defaults.transformRequest = [
     return new URLSearchParams(data);
   }
 ];
+//请求和响应拦截器
+axios.interceptors.request.use(
+  /**
+   * 根据URL地址自动添加Token请求头
+   * @param {axios的请求配置} config
+   * @returns
+   */
+  (config) => {
+    if (!config.url.match(/\/login\/?/g)) {
+      config.headers.Authorization =
+        localStorage.getItem("token") === '""' //读取空字符串时，实际上包含两个双引号
+          ? ""
+          : JSON.parse(localStorage.getItem("token"));
+    } else {
+      config.headers.Authorization = "";
+    }
+    return config;
+  },
+  function (error) {
+    // 对请求错误做些什么
+    return Promise.reject(error);
+  }
+);
 
 /* 在这里挂载导入的全局模块 */
 Vue.use(ElementUI);

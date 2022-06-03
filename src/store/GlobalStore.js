@@ -4,17 +4,17 @@ const GlobalStore = {
   namespaced: true,
 
   state: () => ({
-    userToken: localStorage.getItem("token") || "",
+    userToken: JSON.parse(localStorage.getItem("token")) || "",
     userInfo: {}
   }),
   mutations: {
     updateUserToken(state, newToken) {
       if (newToken === "") {
-        state.userToken = newToken;
+        state.userToken = "";
       } else {
         state.userToken = "Bearer " + newToken;
       }
-      this.axios.defaults.headers.common["Authorization"] = state.userToken;
+
       localStorage.setItem("token", JSON.stringify(state.userToken));
     },
     updateUserInfo(state, newInfo) {
