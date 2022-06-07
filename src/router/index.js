@@ -1,7 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView";
+import userManageCom from "@/components/home/user-manage.vue";
+import bookMangeCom from "@/components/home/book-manage.vue";
 
 Vue.use(VueRouter);
 
@@ -16,8 +18,12 @@ const routes = [
   },
   {
     path: "/home",
-    // name: "home",
-    component: HomeView
+    component: HomeView,
+    children: [
+      { path: "", redirect: "um" },
+      { path: "um", component: userManageCom },
+      { path: "bm", component: bookMangeCom }
+    ]
   }
   // {
   //   path: "/about",

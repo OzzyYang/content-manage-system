@@ -28,4 +28,10 @@ html,
   height: 100%;
   width: 100%;
 }
+
+.all-in-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

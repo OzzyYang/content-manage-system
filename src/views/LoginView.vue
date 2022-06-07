@@ -12,7 +12,7 @@
         hide-required-asterisk
         ref="inputForm"
       >
-        <el-form-item label="账号" prop="account">
+        <el-form-item label="用户名" prop="account">
           <el-input
             placeholder="请输入账号"
             v-model="inputForm.account"
@@ -61,13 +61,14 @@ export default {
         account: [
           {
             required: true,
-            message: "请输入您注册时使用的手机号码",
+            message: "请输入您注册时使用的用户名",
             trigger: "blur"
           },
           {
-            min: 11,
-            max: 11,
-            message: "手机号码长度应为11位数字",
+            min: 1,
+            max: 10,
+            isAlphanumeric: true,
+            message: "用户名应为长度1-10位的字母或者数字",
             trigger: "blur"
           }
         ],
@@ -162,6 +163,7 @@ export default {
   beforeCreate() {
     //先检索本地有没有有效的Token
     if (this.$store.state.m_global.userToken) {
+      //进入主页
       this.$router.push("/home");
     }
   },

@@ -9,9 +9,12 @@ import "element-ui/lib/theme-chalk/index.css";
 //导入axios
 import axios from "axios";
 import VueAxios from "vue-axios";
+//导入时间格式化工具
+var dayjs = require("dayjs");
 
 /* 配置axios */
-axios.defaults.baseURL = "http://1.13.253.86:3007";
+// axios.defaults.baseURL = "http://1.13.253.86:3007";
+axios.defaults.baseURL = "http://127.0.0.1:3007";
 axios.defaults.headers.post["Content-Type"] =
   "application/x-www-form-urlencoded";
 //对请求数据进行application/x-www-form-urlencoded编码
@@ -44,9 +47,11 @@ axios.interceptors.request.use(
   }
 );
 
+console.log(dayjs().format("YYYY-MM-DD HH:mm:ss"));
 /* 在这里挂载导入的全局模块 */
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
+Vue.prototype.dayjs = dayjs;
 
 new Vue({
   router,

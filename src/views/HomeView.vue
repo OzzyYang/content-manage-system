@@ -1,15 +1,21 @@
 <template>
   <div class="home-view">
     <el-container>
+      <!-- 顶栏 -->
       <el-header class="header">
-        <h1>后台管理系统</h1>
+        <!-- Logo和标题区域 -->
+        <div class="logo all-in-center">
+          <img src="@/../public/logo.png" />
+          <h1>后台管理系统</h1>
+        </div>
+        <!-- 用户信息区域 -->
         <div class="user-info">
-          <h4 class="username">{{ userInfo.username }}</h4>
+          <h4 class="username">{{ userInfo.nickname || userInfo.username }}</h4>
           <!-- 头像 -->
           <el-avatar
             class="user-pic"
             :size="50"
-            src="http://5b0988e595225.cdn.sohucs.com/images/20200101/918f7fdd9b08498eac5651e72dc81162.jpeg"
+            :src="userInfo.avatar"
             @error="avatarErrorHandler"
           >
             <!-- 头像加载不出来时的默认图片 -->
@@ -19,34 +25,21 @@
           </el-avatar>
         </div>
       </el-header>
+      <!-- 侧边栏和内容栏 -->
       <el-container>
         <el-aside width="200px">
           <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
+            default-active="um"
             background-color="#545c64"
             text-color="#fff"
             active-text-color="#ffd04b"
+            router
           >
-            <el-submenu index="1">
-              <template slot="title">
-                <i class="el-icon-user"></i>
-                <span>用户管理</span>
-              </template>
-              <el-menu-item-group>
-                <template slot="title">分组一</template>
-                <el-menu-item index="1-1">选项1</el-menu-item>
-                <el-menu-item index="1-2">选项2</el-menu-item>
-              </el-menu-item-group>
-              <el-menu-item-group title="分组2">
-                <el-menu-item index="1-3">选项3</el-menu-item>
-              </el-menu-item-group>
-              <el-submenu index="1-4">
-                <template slot="title">选项4</template>
-                <el-menu-item index="1-4-1">选项1</el-menu-item>
-              </el-submenu>
-            </el-submenu>
-            <el-menu-item index="2">
+            <el-menu-item index="um">
+              <i class="el-icon-user"></i>
+              <span slot="title">用户管理</span>
+            </el-menu-item>
+            <el-menu-item index="bm">
               <i class="el-icon-notebook-2"></i>
               <span slot="title">绘本管理</span>
             </el-menu-item>
@@ -54,13 +47,13 @@
               <i class="el-icon-message"></i>
               <span slot="title">消息管理</span>
             </el-menu-item>
-            <el-menu-item index="4" @click="logout">
+            <el-menu-item @click="logout">
               <i class="el-icon-close"></i>
               <span slot="title">退出登录</span>
             </el-menu-item>
           </el-menu>
         </el-aside>
-        <el-main>Main</el-main>
+        <el-main style="padding: 0px"><router-view></router-view></el-main>
       </el-container>
     </el-container>
   </div>
@@ -73,7 +66,8 @@ export default {
   name: "HomeView",
   data() {
     return {
-      userInfo: {}
+      userInfo: {},
+      fullscreenLoading: false
     };
   },
   methods: {
@@ -90,14 +84,14 @@ export default {
      */
     async getUserInfo() {
       await this.axios.get("/my/get").then(({ data: res }) => {
-        console.log(res);
         if (res.status === 0) {
           if (res.msg === "无效的Token") {
             this.$alert("您的登陆凭证无效或者已过期，请重新登陆！", "提示", {
               type: "warning",
               confirmButtonText: "好的",
               callback: () => {
-                this.logout();
+                this.updateUserToken("");
+                this.$router.push("/login");
               }
             });
           }
@@ -107,19 +101,47 @@ export default {
         }
       });
     },
-    logout(needTip = true) {
-      if (needTip) {
-        this.$confirm("即将退出登录，是否继续？", "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+    async logout() {
+      await this.$confirm("即将退出登录，是否继续？", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          /* 点击了确定 */
+          const loading = this.$loading({
+            lock: true,
+            text: "退出登陆中",
+            spinner: "el-icon-loading",
+            background: "rgba(0, 0, 0, 0.7)"
+          });
+          this.axios
+            .get("/my/logout")
+            .then(({ data: res }) => {
+              if (res.status === 1) {
+                this.updateUserToken("");
+                this.$router.push("/login");
+              } else {
+                this.$alert("退出登录失败，请稍后重试！", "提示", {
+                  type: "warning",
+                  confirmButtonText: "好的"
+                });
+              }
+            })
+            .catch((err) => {
+              console.log("axios请求", err);
+              this.$alert("网络开小差了，请稍后重试！", "提示", {
+                type: "warning",
+                confirmButtonText: "好的"
+              });
+            })
+            .finally(() => {
+              loading.close();
+            });
         })
-          .then(() => {
-            this.updateUserToken("");
-            this.$router.push("/login");
-          })
-          .catch(() => {});
-      }
+        .catch(() => {
+          /* 点击了取消 */
+        });
     }
   },
   created() {
@@ -150,7 +172,7 @@ export default {
   background-color: #e9eef3;
   color: #333;
   text-align: center;
-  line-height: 160px;
+  padding: 0px;
 }
 
 body > .el-container {
@@ -166,6 +188,10 @@ body > .el-container {
   line-height: 320px;
 }
 
+.logo {
+  width: 180px;
+  justify-content: space-between;
+}
 .header,
 .user-info {
   display: flex;
