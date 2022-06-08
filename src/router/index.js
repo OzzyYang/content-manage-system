@@ -4,6 +4,7 @@ import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView";
 import userManageCom from "@/components/home/user-manage.vue";
 import bookMangeCom from "@/components/home/book-manage.vue";
+import userEditCom from "@/components/userinfo-edit.vue";
 
 Vue.use(VueRouter);
 
@@ -22,7 +23,8 @@ const routes = [
     children: [
       { path: "", redirect: "um" },
       { path: "um", component: userManageCom },
-      { path: "bm", component: bookMangeCom }
+      { path: "bm", component: bookMangeCom },
+      { path: "um/:id", component: userEditCom }
     ]
   }
   // {

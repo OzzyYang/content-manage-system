@@ -35,11 +35,11 @@
             active-text-color="#ffd04b"
             router
           >
-            <el-menu-item index="um">
+            <el-menu-item index="um" route="/home/um">
               <i class="el-icon-user"></i>
               <span slot="title">用户管理</span>
             </el-menu-item>
-            <el-menu-item index="bm">
+            <el-menu-item index="bm" route="/home/bm">
               <i class="el-icon-notebook-2"></i>
               <span slot="title">绘本管理</span>
             </el-menu-item>
