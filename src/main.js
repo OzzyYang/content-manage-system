@@ -10,7 +10,15 @@ import "element-ui/lib/theme-chalk/index.css";
 import axios from "axios";
 import VueAxios from "vue-axios";
 //导入时间格式化工具
-var dayjs = require("dayjs");
+import dayjs from "dayjs";
+//导入FilePond工具
+import vueFilePond from "vue-filepond";
+//FilePond相关插件
+import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.esm.js";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.js";
+//FilePond样式
+import "filepond/dist/filepond.min.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 
 /* 配置axios */
 // axios.defaults.baseURL = "http://1.13.253.86:3007";
@@ -47,11 +55,18 @@ axios.interceptors.request.use(
   }
 );
 
-console.log(dayjs().format("YYYY-MM-DD HH:mm:ss"));
+/* 配置FilePond */
+// 创建FilePond组件
+const FilePond = vueFilePond(
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview
+);
+
 /* 在这里挂载导入的全局模块 */
 Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
 Vue.prototype.dayjs = dayjs;
+Vue.component = ("file-pond", FilePond);
 
 new Vue({
   router,

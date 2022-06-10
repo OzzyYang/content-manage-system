@@ -3,19 +3,15 @@
     <router-view></router-view>
   </div>
 </template>
-<!-- <script>
-import { mapState } from "vuex";
+<script>
 export default {
   name: "App",
-  computed: {
-    ...mapState("m_global", ["userToken"])
-  },
+  computed: {},
   created() {},
-  mounted() {
-    console.log(1, this.userToken);
-  }
+  mounted() {},
+  components: {}
 };
-</script> -->
+</script>
 <style lang="scss">
 * {
   margin: 0;

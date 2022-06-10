@@ -1,8 +1,8 @@
 <template>
   <div class="home-view">
-    <el-container>
+    <el-container style="height: 9%">
       <!-- 顶栏 -->
-      <el-header class="header">
+      <el-header class="header" height="100%">
         <!-- Logo和标题区域 -->
         <div class="logo all-in-center">
           <img src="@/../public/logo.png" />
@@ -25,36 +25,36 @@
           </el-avatar>
         </div>
       </el-header>
-      <!-- 侧边栏和内容栏 -->
-      <el-container>
-        <el-aside width="200px">
-          <el-menu
-            default-active="um"
-            background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b"
-            router
-          >
-            <el-menu-item index="um" route="/home/um">
-              <i class="el-icon-user"></i>
-              <span slot="title">用户管理</span>
-            </el-menu-item>
-            <el-menu-item index="bm" route="/home/bm">
-              <i class="el-icon-notebook-2"></i>
-              <span slot="title">绘本管理</span>
-            </el-menu-item>
-            <el-menu-item index="3" disabled>
-              <i class="el-icon-message"></i>
-              <span slot="title">消息管理</span>
-            </el-menu-item>
-            <el-menu-item @click="logout">
-              <i class="el-icon-close"></i>
-              <span slot="title">退出登录</span>
-            </el-menu-item>
-          </el-menu>
-        </el-aside>
-        <el-main style="padding: 0px"><router-view></router-view></el-main>
-      </el-container>
+    </el-container>
+    <!-- 侧边栏和内容栏 -->
+    <el-container style="height: 91%">
+      <el-aside width="200px">
+        <el-menu
+          default-active="um"
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b"
+          router
+        >
+          <el-menu-item index="um" route="/home/um">
+            <i class="el-icon-user"></i>
+            <span slot="title">用户管理</span>
+          </el-menu-item>
+          <el-menu-item index="bm" route="/home/bm">
+            <i class="el-icon-notebook-2"></i>
+            <span slot="title">绘本管理</span>
+          </el-menu-item>
+          <el-menu-item index="3" disabled>
+            <i class="el-icon-message"></i>
+            <span slot="title">消息管理</span>
+          </el-menu-item>
+          <el-menu-item @click="logout">
+            <i class="el-icon-close"></i>
+            <span slot="title">退出登录</span>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-main style="padding: 0px"><router-view></router-view></el-main>
     </el-container>
   </div>
 </template>
@@ -151,8 +151,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.home-view,
-.el-container {
+.home-view {
   height: 100%;
 }
 
@@ -171,7 +170,6 @@ export default {
 .el-main {
   background-color: #e9eef3;
   color: #333;
-  text-align: center;
   padding: 0px;
 }
 
