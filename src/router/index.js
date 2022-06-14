@@ -4,8 +4,10 @@ import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView";
 import allUserManageCom from "@/components/home/ManageAllUser.vue";
 import allBookMangeCom from "@/components/home/ManageAllBook.vue";
-
+import allTagMangeCom from "@/components/home/ManageAllTag.vue";
 import userManageCom from "@/components/home/ManageUser.vue";
+import bookManageCom from "@/components/home/ManageBook.vue";
+import tagManageCom from "@/components/home/ManageTag.vue";
 
 Vue.use(VueRouter);
 
@@ -25,18 +27,12 @@ const routes = [
       { path: "", redirect: "um" },
       { path: "um", component: allUserManageCom },
       { path: "bm", component: allBookMangeCom },
-      { path: "um/user/:action", component: userManageCom }
+      { path: "tm", component: allTagMangeCom },
+      { path: "um/user/:action", component: userManageCom },
+      { path: "bm/book/:action", component: bookManageCom },
+      { path: "tm/tag/:action", component: tagManageCom }
     ]
   }
-  // {
-  //   path: "/about",
-  //   name: "about",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/AboutView.vue")
-  // }
 ];
 
 const router = new VueRouter({

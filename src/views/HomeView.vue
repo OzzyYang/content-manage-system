@@ -34,20 +34,36 @@
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b"
+          style="border: 0"
+          :collapse="isCollapse"
+          :unique-opened="true"
           router
         >
           <el-menu-item index="um" route="/home/um">
             <i class="el-icon-user"></i>
             <span slot="title">用户管理</span>
           </el-menu-item>
-          <el-menu-item index="bm" route="/home/bm">
-            <i class="el-icon-notebook-2"></i>
-            <span slot="title">绘本管理</span>
-          </el-menu-item>
+          <el-submenu index="cm">
+            <template slot="title"
+              ><i class="el-icon-document"></i><span> 内容管理</span></template
+            >
+            <el-menu-item index="bm" route="/home/bm">
+              <i class="el-icon-notebook-1"></i>
+              <span slot="title">绘本管理</span>
+            </el-menu-item>
+            <el-menu-item index="tm" route="/home/tm">
+              <i class="el-icon-collection-tag s"></i>
+              <span slot="title">标签管理</span>
+            </el-menu-item>
+          </el-submenu>
           <el-menu-item index="3" disabled>
             <i class="el-icon-message"></i>
             <span slot="title">消息管理</span>
           </el-menu-item>
+          <!-- <el-menu-item @click="collapseMenu">
+            <i ref="collapseIcon" class="el-icon-d-arrow-left"></i>
+            <span slot="title">折叠菜单</span>
+          </el-menu-item> -->
           <el-menu-item @click="logout">
             <i class="el-icon-close"></i>
             <span slot="title">退出登录</span>
@@ -67,7 +83,8 @@ export default {
   data() {
     return {
       userInfo: {},
-      fullscreenLoading: false
+      fullscreenLoading: false,
+      isCollapse: false
     };
   },
   methods: {
@@ -142,6 +159,16 @@ export default {
         .catch(() => {
           /* 点击了取消 */
         });
+    },
+    collapseMenu() {
+      this.isCollapse = this.isCollapse ? false : true;
+      const comp = this.$refs.collapseIcon;
+      const isColl = this.isCollapse;
+      this.$nextTick(() => {
+        comp.className = isColl
+          ? "el-icon-d-arrow-left"
+          : "el-icon-d-arrow-right";
+      });
     }
   },
   created() {

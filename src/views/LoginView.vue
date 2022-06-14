@@ -32,6 +32,7 @@
             type="primary"
             round
             plain
+            autofocus
             @click="login"
             resetField
             :loading="isLogin"
