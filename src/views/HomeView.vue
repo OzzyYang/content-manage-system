@@ -111,6 +111,15 @@ export default {
                 this.$router.push("/login");
               }
             });
+          } else {
+            this.$alert("未知错误，请重新登陆", "提示", {
+              type: "warning",
+              confirmButtonText: "好的",
+              callback: () => {
+                this.updateUserToken("");
+                this.$router.push("/login");
+              }
+            });
           }
         }
         if (res.status === 1) {
@@ -118,6 +127,9 @@ export default {
         }
       });
     },
+    /**
+     * 退出登陆
+     */
     async logout() {
       await this.$confirm("即将退出登录，是否继续？", "警告", {
         confirmButtonText: "确定",

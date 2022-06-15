@@ -29,7 +29,7 @@
         >
         </el-table-column>
 
-        <el-table-column prop="tags" label="标签" width="150">
+        <el-table-column prop="tags" label="标签">
           <template slot-scope="scope">
             <el-tag
               v-for="item in scope.row.tags"

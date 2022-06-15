@@ -4,7 +4,11 @@ const GlobalStore = {
   namespaced: true,
 
   state: () => ({
-    userToken: JSON.parse(localStorage.getItem("token")) || "",
+    userToken:
+      localStorage.getItem("token") &&
+      localStorage.getItem("token").match(/^".*"$/) //只对包含双引号的字符串进行读取
+        ? JSON.parse(localStorage.getItem("token"))
+        : "",
     userInfo: {}
   }),
   mutations: {

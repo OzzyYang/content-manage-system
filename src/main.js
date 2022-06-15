@@ -41,9 +41,10 @@ axios.interceptors.request.use(
   (config) => {
     if (!config.url.match(/\/login\/?/g)) {
       config.headers.Authorization =
-        localStorage.getItem("token") === '""' //读取空字符串时，实际上包含两个双引号
-          ? ""
-          : JSON.parse(localStorage.getItem("token"));
+        localStorage.getItem("token") &&
+        localStorage.getItem("token").match(/^".*"$/) //只对包含双引号的字符串进行读取
+          ? JSON.parse(localStorage.getItem("token"))
+          : "";
     } else {
       config.headers.Authorization = "";
     }
